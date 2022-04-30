@@ -31,12 +31,14 @@ const sphere = (ro: Vec3, rd: Vec3, r: number) => {
   return vec2(-b - h, -b + h);
 }
 
-const getColor = (value: number) => {
-  const result = value.toString(16).split('.')[0]
 
-  if (result.includes('-')) {
+
+// gets value from 0 to 256
+const getHex = (value: number) => {
+  if (value < 0) {
     return '00'
   }
+  const result = Math.floor(value).toString(16)
   if (result.length === 1) {
     return `0${result}`
   }
@@ -44,6 +46,10 @@ const getColor = (value: number) => {
     return 'FF'
   }
   return result
+}
+
+const getMonoColor = (value: number) => {
+  return `#${getHex(value)}${getHex(value)}${getHex(value)}`
 }
 
 function App() {
@@ -74,11 +80,10 @@ function App() {
         if (intersection.x > 0) {
           const itPoint = sumVe3(ro, mulVe3(rd, vec3(intersection.x, intersection.x, intersection.x)))
           const n = norm(itPoint)
-          const diff = dot(n, light)
-          color = Math.floor(diff * 15) / 15 * 256
+          color = dot(n, light)
         }
 
-        ctx.fillStyle = `#${getColor(color)}${getColor(color)}${getColor(color)}`
+        ctx.fillStyle = getMonoColor(Math.floor(color * 15) / 15 * 256)
         ctx.fillRect(i * size,j * size, size, size);
       }
     }

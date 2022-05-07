@@ -37,50 +37,7 @@ const W = W_CANVAS / PIXEL_SIZE
 const H = H_CANVAS / PIXEL_SIZE
 
 
-// const seed: Cell[] = [
-//   { x: 18, y: 11 },
-//   { x: 18, y: 12 },
-//   { x: 18, y: 13 },
-//   { x: 17, y: 13 },
-//   { x: 17, y: 14 },
-//
-//   { x: 15, y: 15 },
-//   { x: 15, y: 16 },
-//   { x: 15, y: 17 },
-//
-//   { x: 10, y: 10 },
-//   { x: 11, y: 10 },
-//   { x: 12, y: 10 },
-//   { x: 12, y: 11 },
-//   { x: 11, y: 12 },
-//
-//
-//   { x: 19, y: 17 },
-//   { x: 19, y: 18 },
-//   { x: 19, y: 19 },
-//   { x: 19, y: 19 },
-//
-//
-//   { x: 12, y: 19 },
-//   { x: 12, y: 20 },
-//   { x: 12, y: 21 },
-//   { x: 11, y: 21 },
-//   { x: 12, y: 22 },
-//
-//   { x: 14, y: 19 },
-//   { x: 14, y: 20 },
-//   { x: 14, y: 21 },
-//   { x: 14, y: 22 },
-// ]
-
-const seed2: Cell[] = [
-
-  { x: 1, y: 1 },
-  { x: 1, y: 2 },
-  { x: 1, y: 3 },
-  { x: 1, y: 4 },
-  { x: 1, y: 5 },
-  { x: 1, y: 6 },
+const seed: Cell[] = [
   { x: 18, y: 11 },
   { x: 18, y: 12 },
   { x: 18, y: 13 },
@@ -114,29 +71,9 @@ const seed2: Cell[] = [
   { x: 14, y: 20 },
   { x: 14, y: 21 },
   { x: 14, y: 22 },
-  { x: 15, y: 23 },
-  { x: 15, y: 24 },
-  { x: 15, y: 25 },
-  { x: 15, y: 26 },
-  { x: 15, y: 27 },
-
-  { x: 16, y: 22 },
-  { x: 16, y: 23 },
-  { x: 16, y: 25 },
-  { x: 16, y: 28 },
-  { x: 17, y: 22 },
-  { x: 17, y: 23 },
-  { x: 17, y: 24 },
-  { x: 17, y: 26 },
-  { x: 17, y: 29 },
-  { x: 18, y: 29 },
-  { x: 12, y: 31 },
-  { x: 13, y: 31 },
-  { x: 14, y: 31 },
-  { x: 15, y: 31 },
 ]
 
-let currentCells: Cell[] = [ ...seed2 ]
+let currentCells: Cell[] = [ ...seed ]
 
 const getNeighbors = ({ x, y }: Cell): Cell[] => {
   return [
@@ -273,16 +210,7 @@ const iteration = (ctx: CanvasRenderingContext2D, frameIndex: number) => {
   }
 }
 
-const pause = () => {
-  isRunning = !isRunning
-}
-
-const reset = () => {
-  currentCells = [ ...seed2 ]
-}
-
 let frameIndex = 0
-let isRunning = true
 
 function App() {
 
@@ -306,8 +234,6 @@ function App() {
 
     let id = setInterval(() => {
 
-      if (!isRunning) return
-
       iteration(ctx, frameIndex)
 
       if (frameIndex === 10000) {
@@ -323,15 +249,7 @@ function App() {
 
   return (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: "center", width: '100%' }}>
-      <div>
-        <canvas ref={canvasRef} width={W_CANVAS} height={H_CANVAS} />
-      </div>
-      <button onClick={pause}>
-        Pause
-      </button>
-      <button onClick={reset}>
-        Reset
-      </button>
+      <canvas ref={canvasRef} width={W_CANVAS} height={H_CANVAS} />
     </div>
   );
 }
